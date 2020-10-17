@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 
 public class FirstFragment extends Fragment {
     ArrayList<String> mItems;
+    Integer selectedUnit=0;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -30,19 +33,18 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                NavHostFragment.findNavController(FirstFragment.this)
-//                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
-//            }
-//        });
+
+      final  EditText editFrom=view.findViewById(R.id.editFrom);
+       final EditText editTo =view.findViewById(R.id.editTo);
+        Button btnConvert= view.findViewById(R.id.btnConvert);
+
 
         Spinner spinner= view.findViewById(R.id.spinUnit);
         mItems= new ArrayList<String>();
         mItems.add("F to C");
         mItems.add("C to F");
-        mItems.add("K to m");
+        mItems.add("Km to miles");
+        mItems.add("Miles to Km");
         ArrayAdapter<String> arrayAdapter= new ArrayAdapter<String>(this.getContext(),
                 android.R.layout.simple_spinner_item,mItems);
 
@@ -51,7 +53,7 @@ public class FirstFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,int i, long l) {
-                Toast.makeText(getContext(),mItems.get(i),Toast.LENGTH_LONG).show();
+               selectedUnit=i;
             }
 
             @Override
@@ -59,6 +61,38 @@ public class FirstFragment extends Fragment {
 
             }
         });
+
+            btnConvert.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Double fromValue=0.0;
+                    Double result=0.0;
+                    try {
+                        fromValue = Double.parseDouble(editFrom.getText().toString());
+                    }
+                    catch (NumberFormatException ex){
+                        Toast.makeText(getContext(),"Incorret Number",Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    if( selectedUnit==0){
+                        result= (fromValue-32)*5/9;
+
+                    }else if(selectedUnit==1)
+                    {
+                        result= (fromValue/5)*9 + 32;
+
+                    }
+                    else if(selectedUnit==2){
+                        result= fromValue * 0.621371;
+                    }
+                    else{
+                        result= fromValue /0.621371;
+                    }
+                    editTo.setText(result.toString());
+                }
+            });
+
 
 
 

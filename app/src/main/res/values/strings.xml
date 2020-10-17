@@ -13,4 +13,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title">My Smart Unit Convertor</string>
     <string name="selectuni">Please Select Unit</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="timerVal">00:00:00</string>
+    <string name="pauseButtonLabel">Pause</string>
+    <string name="startButtonLabel">Start</string>
+
 </resources>
